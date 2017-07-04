@@ -19,6 +19,9 @@ The entire user network is saved in a dictionary having the following structure:
     'customerID3': {'amount': [], 'friend': [], 'index': []},
     ......
 
+The 'amount' list record the purchases of customerID1. The 'friend' list record the nearest friends of customerID1. The 'index' list record the sequence of events related to customerID1.
+
+
 For example, after reading the following events:
 
  {"event_type":"purchase", "timestamp":"2017-06-13 11:33:01", "id": "1", "amount": "16.83"}
