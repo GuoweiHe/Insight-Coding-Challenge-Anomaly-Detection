@@ -7,9 +7,9 @@ It requires the following modules:
  import json
  from Queue import PriorityQueue
  
-### The whole process has 2 steps:
+## The whole process has 2 steps:
 
-#### Step 1
+### Step 1
 Read the file "batch_log.json" and initial the state of entire user network.
 
 The entire user network is saved in a dictionary having the following structure:
@@ -25,17 +25,12 @@ The 'amount' list record the purchases of customerID1. The 'friend' list record 
 
 For example, after reading the following events:
 
- {"event_type":"purchase", "timestamp":"2017-06-13 11:33:01", "id": "1", "amount": "16.83"}
- 
- {"event_type":"purchase", "timestamp":"2017-06-13 11:33:01", "id": "1", "amount": "59.28"}
-
-{"event_type":"befriend", "timestamp":"2017-06-13 11:33:01", "id1": "1", "id2": "2"}
-
-{"event_type":"befriend", "timestamp":"2017-06-13 11:33:01", "id1": "3", "id2": "1"}
-
-{"event_type":"purchase", "timestamp":"2017-06-13 11:33:01", "id": "1", "amount": "11.20"}
-
-{"event_type":"unfriend", "timestamp":"2017-06-13 11:33:01", "id1": "1", "id2": "3"}
+    {"event_type":"purchase", "timestamp":"2017-06-13 11:33:01", "id": "1", "amount": "16.83"}
+    {"event_type":"purchase", "timestamp":"2017-06-13 11:33:01", "id": "1", "amount": "59.28"}
+    {"event_type":"befriend", "timestamp":"2017-06-13 11:33:01", "id1": "1", "id2": "2"}
+    {"event_type":"befriend", "timestamp":"2017-06-13 11:33:01", "id1": "3", "id2": "1"}
+    {"event_type":"purchase", "timestamp":"2017-06-13 11:33:01", "id": "1", "amount": "11.20"}
+    {"event_type":"unfriend", "timestamp":"2017-06-13 11:33:01", "id1": "1", "id2": "3"}
 
 
 The dictionary containing the entire user network is updated to:
@@ -46,4 +41,4 @@ The dictionary containing the entire user network is updated to:
     ......
 
 
-#### Step 2
+### Step 2
