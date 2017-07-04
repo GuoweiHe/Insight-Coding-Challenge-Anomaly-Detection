@@ -19,7 +19,8 @@ The entire user network is saved in a dictionary having the following structure:
     'customerID3': {'amount': [], 'friend': [], 'index': []},
     ......
 
-The 'amount' list record the purchases of customerID1. The 'friend' list record the nearest friends of customerID1. The 'index' list record the sequence of events related to customerID1.
+The 'amount' list record the purchases of customerID1. The 'friend' list record the nearest friends of customerID1. The 'index' list record the sequence of events related to customerID1. To save some space, only the T latest purchases will be saved in the list, and the older events will be deleted.
+
 
 
 For example, after reading the following events:
@@ -43,3 +44,6 @@ The dictionary containing the entire user network is updated to:
     '2': {'amount': [], 'friend': ['1'], 'index': []},
     '2': {'amount': [], 'friend': [], 'index': []},
     ......
+
+
+#### Step 2
