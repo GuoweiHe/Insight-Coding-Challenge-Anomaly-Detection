@@ -14,11 +14,10 @@ Read the file "batch_log.json" and initial the state of entire user network.
 
 The entire user network is saved in a dictionary having the following structure:
 
-{   'customerID1': {'amount': [], 'friend': [], 'index': []},
+    'customerID1': {'amount': [], 'friend': [], 'index': []},
     'customerID2': {'amount': [], 'friend': [], 'index': []},
     'customerID3': {'amount': [], 'friend': [], 'index': []},
     ......
-}
 
 For example, after reading the following events:
 
@@ -34,10 +33,8 @@ For example, after reading the following events:
 
 {"event_type":"unfriend", "timestamp":"2017-06-13 11:33:01", "id1": "1", "id2": "3"}
 
-{
 
     '1': {'amount': [16.83, 59.28, 11.2], 'friend': ['2'], 'index': [1, 2, 5]},
     '2': {'amount': [], 'friend': ['1'], 'index': []},
     '2': {'amount': [], 'friend': [], 'index': []},
     ......
-}
