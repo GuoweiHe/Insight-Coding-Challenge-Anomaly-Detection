@@ -16,4 +16,5 @@ The entire user network is saved in a dictionary having the following structure:
 
 {
 
-    'customerID1': {'amount': [], 'friend': [u'1'], 'index': []},
+    'customerID1': {'amount': [], 'friend': [], 'index': []},
+    'customerID2': {'amount': [], 'friend': [], 'index': []},
