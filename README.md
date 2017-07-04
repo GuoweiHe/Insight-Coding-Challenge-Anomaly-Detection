@@ -51,3 +51,7 @@ Read the file "stream_log.json" line by line.
 1. For each new 'purchase' event, find the D degree social network of the user. 
    
    Breadth first search algorithm is used to gather the user's friends. The user's friends are gather first (degree 1), then from his      friend find his friend of friend, and then find his friend of friend of friend ......
+   
+2. After the user's social nerwork is found, mean and stardard deviation are calculated.
+   Here, a min-heap is used to help find the lastest purchase.
+   I iterate the purchases of the user's social network and put them in the heap. The heap help keep the lastest T purchases on top.
