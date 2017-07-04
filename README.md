@@ -10,4 +10,13 @@ It requires the following modules:
 ### The whole process has 2 steps:
 
 #### Step 1
+Read the file "batch_log.json" and initail the state of the entire user network.
+The entire user network is saved in a dictionary.
 
+The dictionary saving the state of network has the following structure:
+{
+   'customerID1': {'amount': [], 'friend': [], 'index': []},  //The 'amount' list record the purchases of customerID1. The 'friend' list record the nearest friends of customerID1. The 'index' list record the sequence of events related to customerID1.
+   'customerID2': {'amount': [], 'friend': [], 'index': []},
+   'customerID3': {'amount': [], 'friend': [], 'index': []},
+   ......
+ }
