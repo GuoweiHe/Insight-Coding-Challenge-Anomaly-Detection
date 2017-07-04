@@ -10,3 +10,4 @@ It requires the following modules:
 ### The whole process has 2 steps:
 
 #### Step 1
+Read the file "batch_log.json".
