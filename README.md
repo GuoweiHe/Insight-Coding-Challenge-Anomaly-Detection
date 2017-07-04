@@ -35,6 +35,7 @@ For example, after reading the following events:
 
 
 The dictionary containing the entire user network is updated to:
+
     '1': {'amount': [16.83, 59.28, 11.2], 'friend': ['2'], 'index': [1, 2, 5]},
     '2': {'amount': [], 'friend': ['1'], 'index': []},
     '2': {'amount': [], 'friend': [], 'index': []},
