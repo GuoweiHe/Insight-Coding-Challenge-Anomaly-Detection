@@ -34,6 +34,7 @@ For example, after reading the following events:
 {"event_type":"unfriend", "timestamp":"2017-06-13 11:33:01", "id1": "1", "id2": "3"}
 
 
+The dictionary containing the entire user network is updated to:
     '1': {'amount': [16.83, 59.28, 11.2], 'friend': ['2'], 'index': [1, 2, 5]},
     '2': {'amount': [], 'friend': ['1'], 'index': []},
     '2': {'amount': [], 'friend': [], 'index': []},
