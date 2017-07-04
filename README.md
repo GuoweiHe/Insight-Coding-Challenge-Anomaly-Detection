@@ -11,3 +11,4 @@ It requires the following modules:
 
 #### Step 1
 Read the file "batch_log.json" and initial the state of entire user network.
+The entire user network is saved in a dictionary having the following structure:
