@@ -14,10 +14,12 @@ Read the file "batch_log.json" and initial the state of entire user network.
 
 The entire user network is saved in a dictionary having the following structure:
 
+    {
     'customerID1': {'amount': [], 'friend': [], 'index': []},
     'customerID2': {'amount': [], 'friend': [], 'index': []},
     'customerID3': {'amount': [], 'friend': [], 'index': []},
     ......
+    }
 
 The 'amount' list record the purchases of customerID1. The 'friend' list record the nearest friends of customerID1. The 'index' list record the sequence of events related to customerID1. To save some space, only the T latest purchases will be saved in the list, and the older events will be deleted.
 
