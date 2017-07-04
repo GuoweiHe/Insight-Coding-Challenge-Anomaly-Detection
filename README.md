@@ -15,15 +15,6 @@ The entire user network is saved in a dictionary.
 
 The dictionary saving the state of network has the following structure:
 
-{
 
-    'customerID1':
-
- {
-    'customerID1': {'amount': [], 'friend': [], 'index': []},
-    'customerID2': {'amount': [], 'friend': [], 'index': []},
-    'customerID3': {'amount': [], 'friend': [], 'index': []},
-    ......
- }
  
 The 'amount' list record the purchases of customerID1. The 'friend' list record the nearest friends of customerID1. The 'index' list record the sequence of events related to customerID1.
