@@ -14,6 +14,7 @@ Read the file "batch_log.json" and initail the state of the entire user network.
 The entire user network is saved in a dictionary.
 
 The dictionary saving the state of network has the following structure:
+
  {
     'customerID1': {'amount': [], 'friend': [], 'index': []},  
     'customerID2': {'amount': [], 'friend': [], 'index': []},
