@@ -16,6 +16,7 @@ The entire user network is saved in a dictionary.
 The dictionary saving the state of network has the following structure:
 
 {
+
     'customerID1':
 
  {
