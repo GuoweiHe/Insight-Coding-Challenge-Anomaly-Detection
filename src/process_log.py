@@ -180,5 +180,5 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    print "Program is running... It may need about 10 seconds to finish."
+    print "Program is running ..."
     main(sys.argv)
