@@ -21,7 +21,7 @@ The entire user network is saved in a dictionary having the following structure:
     ......
     }
 
- The 'amount' list records the purchases of customerID1.
+    The 'amount' list records the purchases of customerID1.
  
  The 'friend' list contains the direct friends of customerID1. 
  
