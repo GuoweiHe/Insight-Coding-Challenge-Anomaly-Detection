@@ -22,12 +22,9 @@ The entire user network is saved in a dictionary having the following structure:
     }
 
     The 'amount' list records the purchases of customerID1.
- 
     The 'friend' list contains the direct friends of customerID1. 
- 
- The 'index' list records the sequence of events related to customerID1. For each event, a sequence number is assigned. For example, the first event has index number of 1, the second event has index number of 2 ...... 
- 
- To save some space, only the T latest purchases will be saved in the lists, and the older events will be deleted.
+    The 'index' list records the sequence of events related to customerID1. For each event, a sequence number is assigned. For example, the first event has index number of 1, the second event has index number of 2 ...... 
+    To save some space, only the T latest purchases will be saved in the lists, and the older events will be deleted.
 
 
 
