@@ -129,50 +129,43 @@ def get_friend(history_log, ID, D):
 
 # This function calculate the mean and standard deviation of a given user's social network.
 def calculate_mean_sd(history_log, ID, D, T):
-    # A min-heap is used to help find the lastest purchase.
-    # Iterate the purchases of the given user's near social network and put them in the heap.
-    # The heap keep the lastest T purchases.
-    priorityQueue = PriorityQueue()
+    # Find the friends in the user's network.
     friend = get_friend(history_log, ID, D)
-    for customerID in friend:
-        for i in range(len(history_log[customerID]['index'])-1, -1, -1):
-            # If we have less than T purchase events so far, we simply put them into the heap.
-            if (priorityQueue.qsize() < T):
-                priorityQueue.put(history_log[customerID]['index'][i])
-            # If we have more than T purchase events, we remove the older events from the heap
-            # and only keep T latest purchases in the heap.
-            else:
-                temp = priorityQueue.get();
-                if history_log[customerID]['index'][i] < temp:
-                    priorityQueue.put(temp)
-                    break
-                else:
-                    priorityQueue.put(history_log[customerID]['index'][i])
+    length = len(friend)
     
+    # Since each friend's purchase list has already sorted from old to new, 
+    # when we search newest elements, we can start the search from the end of each friend's purchase list.
+    # The position list contains the next search position in each friend's purchase list when we search the next newest event.
+    position = []
+    for i in range(length):
+        position.append(len(history_log[friend[i]]['index']) - 1)  
+    latest_amount = []
+    while True:
+        latest_index = -1
+        latest_pos = -1
+        for i in range(length):
+            if (position[i] >= 0):
+                if (history_log[friend[i]]['index'][position[i]] > latest_index):
+                    latest_index = history_log[friend[i]]['index'][position[i]]
+                    latest_pos = i
+        # If no more event or we have already get T latest purchases, exit the while loop
+        if (latest_pos == -1 or len(latest_amount) == T):
+            break;
+        # If find the next latest event, put the purchase amount in the list 'latest_amout'.
+        latest_amount.append(history_log[friend[latest_pos]]['amount'][position[latest_pos]])
+        position[latest_pos] -= 1
+            
     # If there are less than 2 purchases in the social network, 
     # return mean = -1 and sd = -1, which indicates no valid mean and sd results.
-    if (priorityQueue.qsize() < 2):
+    if (len(latest_amount) < 2):
         return (-1, -1)
     
-    # Extract the indexes of the lastest T purchases from the heap.
-    lastest_index = []
-    while (not priorityQueue.empty()):
-        lastest_index.append(priorityQueue.get())
-    
-    # From the indexes of the lastest T purchases, extract the expense amounts of these purchases.
-    lastest_amount = []
-    for customerID in friend:
-        for index in lastest_index:
-            if (index in history_log[customerID]['index']) :
-                pos = history_log[customerID]['index'].index(index)
-                lastest_amount.append(history_log[customerID]['amount'][pos])
-    
     # Calculate the mean and sd, and return.
-    mean = sum(lastest_amount) / len(lastest_amount)
+    mean = sum(latest_amount) / len(latest_amount)
     sd = 0
-    for i in lastest_amount:
+    for i in latest_amount:
         sd += (i - mean) * (i - mean)
-    sd = (sd / len(lastest_amount))**0.5
+    sd = (sd / len(latest_amount))**0.5
     return (mean, sd)
 
 
