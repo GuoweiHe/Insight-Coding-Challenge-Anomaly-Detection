@@ -58,8 +58,7 @@ Read the file "stream_log.json" line by line.
    
 2. After the user's social nerwork is found, mean and stardard deviation are calculated.
 
-   Here, a min-heap is used to help find the lastest purchase.
-   I iterate the purchases of the user's social network and put them in the heap. The heap help keep the lastest T purchases on top.
+   Since each person's purchase list has already sorted from old to new, when we search newest elements, we can just start the search from the end of each purchase's purchase list. We stop the search until we can T latest purchase events or there is no more events.
 
 If the new purchase is greater than mean + 3* sd, the event will be written to flagged_purchases.json.
 
