@@ -6,24 +6,24 @@ except ImportError:
     from queue import PriorityQueue
 
 
-# This function reads the first file "batch_log.json" to build the initial state of the entire user network.
-# The entire network is saved in a dictionary "history_log".
+## This function reads in the first file "batch_log.json" to build the initial state of the entire user network.
 def initial(filename):
+    # The user network is stored into a Python dict "history_log".
     history_log = {}
     inputfile = open(filename)
     firstline = json.loads(inputfile.readline())
     D = int(firstline['D'])
     T = int(firstline['T'])
     
-    # The variable "index" denotes the sequence of events. 
-    # For example, the first event has index of 1, the second event has index of 2 ...... 
+    # For each event, an index number is assigned. 
+    # For example, the first event has index of 1, the second event has index of 2, and so on. 
     index = 0
     for nextline in inputfile:
         if nextline == '\n':
             continue
         new_log = json.loads(nextline)
         
-        # When a new event is read in, the function "updated_log" updates the dictionary "history_log.
+        # When a new event is read in, call the function "updated_log" to update the dict "history_log".
         index += 1
         update_log(history_log, new_log, T, index)
     
@@ -31,9 +31,9 @@ def initial(filename):
     return (history_log, D, T, index)
 
 
-# This function updates the "historty_log" with newly read in event "new_log".
+## This function updates the dict "historty_log" with newly read in event.
 def update_log(history_log, new_log, T, index):
-    # If the event is "purchase", add index and purchase amount to the customer's dictionary.
+    # If the event type is "purchase", add index and purchase amount to the dict.
     if new_log['event_type'] == 'purchase':
         ID = new_log['id']
         if not ID in history_log:
@@ -45,12 +45,12 @@ def update_log(history_log, new_log, T, index):
             history_log[ID]['index'].append(index)
             history_log[ID]['amount'].append(float(new_log['amount']))
         
-        # To save some space, if a user has more than T purchases, we just keep T purchases and delete the older events.
+        # To save some space, if a user has more than T purchases, we just keep T purchases and delete the older purchases.
         if (len(history_log[ID]['amount']) > T):
             history_log[ID]['index'].pop(0)
             history_log[ID]['amount'].pop(0)
     
-    # If the event is "befriend", add the customers' IDs to each other' friend list.
+    # If the event type is "befriend", add the user IDs to each other's friend list.
     if new_log['event_type'] == 'befriend':
         ID1 = new_log['id1']
         ID2 = new_log['id2']
@@ -67,7 +67,7 @@ def update_log(history_log, new_log, T, index):
         history_log[ID1]['friend'].append(ID2)
         history_log[ID2]['friend'].append(ID1)
     
-    # If the event is "unfriend", remove the IDs from friend list.
+    # If the event type is "unfriend", remove the IDs from friend list.
     if new_log['event_type'] == 'unfriend':
         ID1 = new_log['id1']
         ID2 = new_log['id2']
@@ -77,7 +77,7 @@ def update_log(history_log, new_log, T, index):
             history_log[ID2]['friend'].remove(ID1)
 
 
-# This function read the second file "stream_log.json" line by line, and detect if the new purchase event is anomal. 
+## This function read in the second file "stream_log.json" line by line, and determine if the new purchase is anormal. 
 def find_anomaly(history_log, index, D, T, inputfile_name, outputfile_name):
     infile = open(inputfile_name)
     outfile = open(outputfile_name, 'w')
@@ -86,18 +86,18 @@ def find_anomaly(history_log, index, D, T, inputfile_name, outputfile_name):
             continue
         new_log = json.loads(nextline)
         
-        # When a new event is read in, the function "updated_log" updates the dictionary "history_log".
+        # When a new event is read in, call the function "updated_log" to update the dict "history_log".
         index += 1
         update_log(history_log, new_log, T, index)
     
         if new_log['event_type'] == 'purchase':
-            # Call function "calculate_mean_sd" to calculate the mean and standard deviation of the user's social network.
+            # Call function "calculate_mean_sd" to calculate the mean and sd of the user's social network.
             (mean, sd) = calculate_mean_sd(history_log, new_log['id'], D, T)
             
-            # mean == -1 and sd == -1 indicate the user's social network has less than 2 purchases.
+            # mean == -1 and sd == -1 indicate that the user's social network has less than 2 purchases.
             if (mean == -1 and sd == -1):
                 continue
-            # If the user's purchase is greater than mean + 3 * sd, output the anomal event.
+            # If the user's purchase amount is greater than mean + 3 * sd, output the anormal purchase.
             if (float(new_log['amount']) > mean + 3 * sd):
                 string = '{"event_type":"%s", "timestamp":"%s", "id": "%s", "amount": "%s", "mean": "%.2f", "sd": "%.2f"}\n' % (new_log["event_type"], new_log["timestamp"], new_log["id"], new_log["amount"], mean, sd)
                 outfile.write(string)
@@ -107,13 +107,13 @@ def find_anomaly(history_log, index, D, T, inputfile_name, outputfile_name):
     return (index)
 
 
-# Given the degree D and a customer's ID, this function returns all the friends in his social network.
+## Given a degree D and a customer's ID, this function returns all the friends in the user's Dth degree social network.
 def get_friend(history_log, ID, D):
     friends = set()
     current_degree_friend = set();
     current_degree_friend.add(ID)
     
-    # Breadth first search algorithm is used to gather a customer's friends in his social network.
+    # Breadth First Search algorithm is used to find all the friends in the user's Dth degree social network.
     while (D > 0):
         next_degree_friend = set();
         for i in current_degree_friend:
@@ -127,15 +127,14 @@ def get_friend(history_log, ID, D):
     return list(friends)
 
 
-# This function calculate the mean and standard deviation of a given user's social network.
+## This function calculates the mean and standard deviation of a given user's Dth degree social network.
 def calculate_mean_sd(history_log, ID, D, T):
-    # Find the friends in the user's network.
+    # Find the friends in the user's Dth degree social network.
     friend = get_friend(history_log, ID, D)
     length = len(friend)
     
-    # Since each friend's purchase list has already sorted from old to new, 
-    # when we search newest elements, we can start the search from the end of each friend's purchase list.
-    # The position list contains the next search position in each friend's purchase list when we search the next newest event.
+    # Since all user's purchase lists have already sorted from old to new, 
+    # when we search the latest purchases, we can start from the end of the lists.
     position = []
     for i in range(length):
         position.append(len(history_log[friend[i]]['index']) - 1)  
@@ -148,15 +147,14 @@ def calculate_mean_sd(history_log, ID, D, T):
                 if (history_log[friend[i]]['index'][position[i]] > latest_index):
                     latest_index = history_log[friend[i]]['index'][position[i]]
                     latest_pos = i
-        # If no more event or we have already get T latest purchases, exit the while loop
+        # If there is no more event or we have already get latest T purchases, exit the while loop
         if (latest_pos == -1 or len(latest_amount) == T):
             break;
-        # If find the next latest event, put the purchase amount in the list 'latest_amout'.
+        # If find the next latest purchase, put the purchase amount in the list 'latest_amout'.
         latest_amount.append(history_log[friend[latest_pos]]['amount'][position[latest_pos]])
         position[latest_pos] -= 1
             
-    # If there are less than 2 purchases in the social network, 
-    # return mean = -1 and sd = -1, which indicates no valid mean and sd results.
+    # If there are less than 2 purchases in the social network, return mean = -1 and sd = -1.
     if (len(latest_amount) < 2):
         return (-1, -1)
     
@@ -169,13 +167,15 @@ def calculate_mean_sd(history_log, ID, D, T):
     return (mean, sd)
 
 
-# Main function
+## Main function
 def main(argv):
-    # Read the file "batch_log.json" and initail the state of the entire user network.
-    # The entire user network is saved in a dictionary "history_log"
+    # Step 1: 
+    # Read in the file "batch_log.json" and initialize the entire user network.
+    # The user network is stored into a Python dict "history_log"
     (history_log, D, T, index) = initial(argv[1])
-
-    # Using the information we get from "batch-log.json", find the anomaly with the function "find_anomaly". 
+    
+    # Step 2:
+    # Read in file "batch-log.json" line by line, find the anormal purchase. 
     (index) = find_anomaly(history_log, index, D, T, argv[2], argv[3])
 
 
