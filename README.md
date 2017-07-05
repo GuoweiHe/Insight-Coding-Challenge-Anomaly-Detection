@@ -19,7 +19,7 @@ The entire user network is saved in a dictionary having the following structure:
     ......
     }
 
-    The `amount` list records the purchases of customerID1.
+    The 'amount' list records the purchases of customerID1.
     The 'friend' list contains the direct friends of customerID1. 
     The 'index' list records the sequence of events related to customerID1. 
     For each event, a sequence number is assigned. For example, the first event has index number of 1, the second event has index number of 2 ...... 
@@ -49,14 +49,14 @@ The dictionary containing the entire user network is updated to:
 
 
 ### Step 2
-Read the file "stream_log.json" line by line.
-1. For each new 'purchase' event, find the D degree social network of the user. 
+Read the file `stream_log.json` line by line.
+1. For each new purchase event, find the `D`th degree social network of the user. 
    
-   Breadth first search algorithm is used to gather the user's friends. The user's friends are gathered first (degree 1), then from his      friend find his friend of friend, and then find his friend of friend of friend ......
+   Breadth first search algorithm is used to gather the user's friends. The user's direct friends are gathered first, then from his friend find his "friend of friend", and then find his "friend of friend of friend", and so
    
-2. After the user's `D` degree social nerwork is found, mean and stardard deviation are calculated.
+2. After the user's `D`th degree social nerwork is found, mean and stardard deviation are calculated.
 
-   Since each person's purchase list has already sorted from old to new, when we search newest elements, we can just start the search from the end of each purchase's purchase list. We stop the search until we can T latest purchase events or there is no more events to look at.
+   Since each person's purchase list has already sorted from old to new, when we search newest elements, we can just start the search from the end of each purchase's purchase list. We stop the search until we get `T` latest purchase events or there is no more event.
 
-If the new purchase is greater than mean + 3* sd, the event will be written to flagged_purchases.json.
+If the new purchase is greater than `mean + 3 * sd`, the event will be written to `flagged_purchases.json`.
 
