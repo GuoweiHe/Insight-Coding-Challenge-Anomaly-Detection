@@ -1,4 +1,4 @@
-# Insight-Coding-challenge-July2017 Anomaly Detection
+# Insight-Coding-Challenge July2017 Anomaly Detection
 
 This is an implementation of Coding Challenge for Insight Data Engineering Fellows Program starting September 2017.
 It is written in Python 2.7 and tested in Python 2.7. It passes the required tests.
@@ -10,7 +10,7 @@ It requires the following modules:
 ## The whole process has 2 steps:
 
 ### Step 1
-Read the file "batch_log.json" and initial the state of entire user network.
+Read the file "batch_log.json" and initialize the state of the entire user network.
 
 The entire user network is saved in a dictionary having the following structure:
 
@@ -54,9 +54,9 @@ The dictionary containing the entire user network is updated to:
 Read the file "stream_log.json" line by line.
 1. For each new 'purchase' event, find the D degree social network of the user. 
    
-   Breadth first search algorithm is used to gather the user's friends. The user's friends are gather first (degree 1), then from his      friend find his friend of friend, and then find his friend of friend of friend ......
+   Breadth first search algorithm is used to gather the user's friends. The user's friends are gathered first (degree 1), then from his      friend find his friend of friend, and then find his friend of friend of friend ......
    
-2. After the user's social nerwork is found, mean and stardard deviation are calculated.
+2. After the user's `D` degree social nerwork is found, mean and stardard deviation are calculated.
 
    Since each person's purchase list has already sorted from old to new, when we search newest elements, we can just start the search from the end of each purchase's purchase list. We stop the search until we can T latest purchase events or there is no more events to look at.
 
