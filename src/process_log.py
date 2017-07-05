@@ -23,7 +23,7 @@ def initial(filename):
             continue
         new_log = json.loads(nextline)
         
-        # When a new event is read in, call the function "updated_log" to update the dict "history_log".
+        # When a new event is read in, call the function "update_log" to update the dict "history_log".
         index += 1
         update_log(history_log, new_log, T, index)
     
@@ -33,7 +33,7 @@ def initial(filename):
 
 ## This function updates the dict "historty_log" with newly read in event.
 def update_log(history_log, new_log, T, index):
-    # If the event type is "purchase", add index and purchase amount to the dict.
+    # If the event type is "purchase", add index number and purchase amount to the dict.
     if new_log['event_type'] == 'purchase':
         ID = new_log['id']
         if not ID in history_log:
@@ -45,7 +45,7 @@ def update_log(history_log, new_log, T, index):
             history_log[ID]['index'].append(index)
             history_log[ID]['amount'].append(float(new_log['amount']))
         
-        # To save some space, if a user has more than T purchases, we just keep T purchases and delete the older purchases.
+        # To save some space, if a user has more than T purchases, we just keep latest T purchases and delete the older purchases.
         if (len(history_log[ID]['amount']) > T):
             history_log[ID]['index'].pop(0)
             history_log[ID]['amount'].pop(0)
@@ -67,7 +67,7 @@ def update_log(history_log, new_log, T, index):
         history_log[ID1]['friend'].append(ID2)
         history_log[ID2]['friend'].append(ID1)
     
-    # If the event type is "unfriend", remove the IDs from friend list.
+    # If the event type is "unfriend", remove the IDs from friend lists.
     if new_log['event_type'] == 'unfriend':
         ID1 = new_log['id1']
         ID2 = new_log['id2']
@@ -78,7 +78,7 @@ def update_log(history_log, new_log, T, index):
 
 
 ## This function read in the second file "stream_log.json" line by line, and determine if the new purchase is anormal. 
-def find_anomaly(history_log, index, D, T, inputfile_name, outputfile_name):
+def find_anormaly(history_log, index, D, T, inputfile_name, outputfile_name):
     infile = open(inputfile_name)
     outfile = open(outputfile_name, 'w')
     for nextline in infile:
@@ -147,7 +147,7 @@ def calculate_mean_sd(history_log, ID, D, T):
                 if (history_log[friend[i]]['index'][position[i]] > latest_index):
                     latest_index = history_log[friend[i]]['index'][position[i]]
                     latest_pos = i
-        # If there is no more event or we have already get latest T purchases, exit the while loop
+        # If there is no more event or we have already get the latest T purchases, exit the while loop
         if (latest_pos == -1 or len(latest_amount) == T):
             break;
         # If find the next latest purchase, put the purchase amount in the list 'latest_amout'.
@@ -176,7 +176,7 @@ def main(argv):
     
     # Step 2:
     # Read in file "batch-log.json" line by line, find the anormal purchase. 
-    (index) = find_anomaly(history_log, index, D, T, argv[2], argv[3])
+    (index) = find_anormaly(history_log, index, D, T, argv[2], argv[3])
 
 
 if __name__ == "__main__":
