@@ -7,7 +7,7 @@ The code is written and tested in Python 2.7. It requires the `json` module.
 
 The whole process contains 2 steps. 
 
-### Step 1: Initilization
+### Step 1: Initialization
 
 Read the file `batch_log.json` and initialize the state of the entire user network.
 
@@ -50,11 +50,11 @@ Read the file `stream_log.json` line by line.
 
 2.1 For each new purchase, find the `D`th degree social network of the user. 
    
-   Breadth First Search algorithm is used to search the social network. First, gather the user's direct friends. Then, from the user's direct friend, find the user's "friends of friends", and then find the users's "friends of friends of friends" and so on.
+   Breadth First Search algorithm is used to search the social network. First, gather the user's direct friends. Then, from the user's direct friend, find the user's "friends of friends", and then find the user's "friends of friends of friends" and so on.
    
 2.2 From the user's `D`th degree social network, find the latest `T` purchases, and calculate the `mean` and `sd`.
 
-   Since all user's purchase list has already been sorted from old to new, when we search the latest purchases, we can just start from the end of the list. We stop the search until we obtain latest `T` purchase or there is no more purchase.
+   Since all user's purchase lists have already been sorted from old to new, when we search the latest purchases, we can just start from the end of the list. We stop the search until we obtain latest `T` purchase or there is no more purchase.
 
 2.3 If the new purchase amount is greater than `mean + 3 * sd`, the purchase will be written to `flagged_purchases.json`.
 
