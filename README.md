@@ -58,7 +58,7 @@ Read the file "stream_log.json" line by line.
    
 2. After the user's social nerwork is found, mean and stardard deviation are calculated.
 
-   Since each person's purchase list has already sorted from old to new, when we search newest elements, we can just start the search from the end of each purchase's purchase list. We stop the search until we can T latest purchase events or there is no more events.
+   Since each person's purchase list has already sorted from old to new, when we search newest elements, we can just start the search from the end of each purchase's purchase list. We stop the search until we can T latest purchase events or there is no more events to look at.
 
 If the new purchase is greater than mean + 3* sd, the event will be written to flagged_purchases.json.
 
