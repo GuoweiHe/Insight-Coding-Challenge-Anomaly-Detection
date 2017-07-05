@@ -3,14 +3,12 @@
 This is an implementation of Coding Challenge for Insight Data Engineering Fellows Program starting September 2017.
 It is written in Python 2.7 and tested in Python 2.7. It passes the required tests.
 
-It requires the following modules:
- import json
- from Queue import PriorityQueue
+It requires the `json` module.
  
-## The whole process has 2 steps:
+The whole process has 2 steps.
 
 ### Step 1
-Read the file "batch_log.json" and initialize the state of the entire user network.
+Read the file `batch_log.json` and initialize the state of the entire user network.
 
 The entire user network is saved in a dictionary having the following structure:
 
@@ -21,7 +19,7 @@ The entire user network is saved in a dictionary having the following structure:
     ......
     }
 
-    The 'amount' list records the purchases of customerID1.
+    The `amount` list records the purchases of customerID1.
     The 'friend' list contains the direct friends of customerID1. 
     The 'index' list records the sequence of events related to customerID1. 
     For each event, a sequence number is assigned. For example, the first event has index number of 1, the second event has index number of 2 ...... 
