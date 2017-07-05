@@ -78,7 +78,7 @@ def update_log(history_log, new_log, T, index):
 
 
 ## This function read in the second file "stream_log.json" line by line, and determine if the new purchase is anormal. 
-def find_anormaly(history_log, index, D, T, inputfile_name, outputfile_name):
+def find_anomaly(history_log, index, D, T, inputfile_name, outputfile_name):
     infile = open(inputfile_name)
     outfile = open(outputfile_name, 'w')
     for nextline in infile:
@@ -176,7 +176,7 @@ def main(argv):
     
     # Step 2:
     # Read in file "batch-log.json" line by line, find the anormal purchase. 
-    (index) = find_anormaly(history_log, index, D, T, argv[2], argv[3])
+    (index) = find_anomaly(history_log, index, D, T, argv[2], argv[3])
 
 
 if __name__ == "__main__":
