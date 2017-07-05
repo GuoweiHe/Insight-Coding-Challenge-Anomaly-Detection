@@ -1,16 +1,17 @@
 # Insight Coding Challenge: Anomaly Detection
 
-This is an implementation of Coding Challenge for Insight Data Engineering Fellows Program starting September 2017.
-It is written in Python 2.7 and tested in Python 2.7. It passes the required tests.
+This is an implementation of the coding challenge for Insight Data Engineering Fellows Program starting September 2017.
 
-It requires the `json` module.
- 
-The whole process has 2 steps.
+The code is written and tested in Python 2.7. It requires the `json` module.
 
-### Step 1
+
+The whole process contains 2 steps. 
+
+### Step 1: Initilization
+
 Read the file `batch_log.json` and initialize the state of the entire user network.
 
-The entire user network is saved in a dictionary having the following structure:
+The entire user network is stored into a `dict` having the following structure:
 
     {
     'customerID1': {'amount': [], 'friend': [], 'index': []},
@@ -26,8 +27,7 @@ The entire user network is saved in a dictionary having the following structure:
     To save some space, only the T latest purchases will be saved in the lists, and the older events will be deleted.
 
 
-
-For example, after reading the following events:
+For example, after importing the following events:
 
     {"event_type":"purchase", "timestamp":"2017-06-13 11:33:01", "id": "1", "amount": "16.83"}
     {"event_type":"purchase", "timestamp":"2017-06-13 11:33:01", "id": "1", "amount": "59.28"}
@@ -36,8 +36,7 @@ For example, after reading the following events:
     {"event_type":"purchase", "timestamp":"2017-06-13 11:33:01", "id": "1", "amount": "11.20"}
     {"event_type":"unfriend", "timestamp":"2017-06-13 11:33:01", "id1": "1", "id2": "3"}
 
-
-The dictionary containing the entire user network is updated to:
+The `dict` containing the entire user network is updated to:
 
     {
     '1': {'amount': [16.83, 59.28, 11.2], 'friend': ['2'], 'index': [1, 2, 5]},
@@ -45,18 +44,17 @@ The dictionary containing the entire user network is updated to:
     '3': {'amount': [], 'friend': [], 'index': []},
     }
 
+### Step 2: Anomaly Detection
 
-
-
-### Step 2
 Read the file `stream_log.json` line by line.
-1. For each new purchase event, find the `D`th degree social network of the user. 
-   
-   Breadth first search algorithm is used to gather the user's friends. The user's direct friends are gathered first, then from his friend find his "friend of friend", and then find his "friend of friend of friend", and so
-   
-2. After the user's `D`th degree social nerwork is found, mean and stardard deviation are calculated.
 
-   Since each person's purchase list has already sorted from old to new, when we search newest elements, we can just start the search from the end of each purchase's purchase list. We stop the search until we get `T` latest purchase events or there is no more event.
+2.1 For each new purchase, find the `D`th degree social network of the user. 
+   
+   Breadth First Search algorithm is used to search the social network. First, gather the user's direct friends. Then, from the user's direct friend, find the user's "friends of friends", and then find the users's "friends of friends of friends" and so on.
+   
+2.2 From the user's `D`th degree social network, find the latest `T` purchases, and calculate the `mean` and `sd`.
 
-If the new purchase is greater than `mean + 3 * sd`, the event will be written to `flagged_purchases.json`.
+   Since all user's purchase list has already been sorted from old to new, when we search the latest purchases, we can just start from the end of the list. We stop the search until we obtain latest `T` purchase or there is no more purchase.
+
+2.3 If the new purchase amount is greater than `mean + 3 * sd`, the purchase will be written to `flagged_purchases.json`.
 
