@@ -54,7 +54,7 @@ Read the file `stream_log.json` line by line.
    
 2.2 From the user's `D`th degree social network, find the latest `T` purchases, and calculate the `mean` and `sd`.
 
-   Since all user's purchase lists have already been sorted from old to new, when we search the latest purchases, we can just start from the end of the list. We stop the search until we obtain latest `T` purchase or there is no more purchase.
+   Since all user's purchase lists have already been sorted from old to new, when we search the latest purchases, we can just start from the end of the lists. We stop the search until we obtain latest `T` purchase or there is no more purchase.
 
 2.3 If the new purchase amount is greater than `mean + 3 * sd`, the purchase will be written to `flagged_purchases.json`.
 
