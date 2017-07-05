@@ -1,4 +1,5 @@
 # Insight-Coding-challenge-July2017
+## Anomaly Detection
 
 This is an implementation of Coding Challenge for Insight Data Engineering Fellows Program starting September 2017.
 It is written in Python 2.7 and tested in Python 2.7. It passes the required tests.
