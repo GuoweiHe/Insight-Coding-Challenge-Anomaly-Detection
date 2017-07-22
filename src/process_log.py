@@ -141,20 +141,21 @@ def calculate_mean_sd(history_log, ID, D, T):
     for i in range(length):
         position.append(len(history_log[friend[i]]['index']) - 1)  
     latest_amount = []
+    
     while True:
         latest_index = -1
-        latest_pos = -1
+        latest_list = -1
+        # For each friend's index list, find the latest index and the index list with this largest index.
         for i in range(length):
-            if (position[i] >= 0):
-                if (history_log[friend[i]]['index'][position[i]] > latest_index):
-                    latest_index = history_log[friend[i]]['index'][position[i]]
-                    latest_pos = i
+            if (position[i] >= 0 and history_log[friend[i]]['index'][position[i]] > latest_index):
+                latest_index = history_log[friend[i]]['index'][position[i]]
+                latest_list = i
         # If there is no more event or we have already get the latest T purchases, exit the while loop
-        if (latest_pos == -1 or len(latest_amount) == T):
+        if (latest_list == -1 or len(latest_amount) == T):
             break;
         # If find the next latest purchase, put the purchase amount in the list 'latest_amout'.
-        latest_amount.append(history_log[friend[latest_pos]]['amount'][position[latest_pos]])
-        position[latest_pos] -= 1
+        latest_amount.append(history_log[friend[latest_list]]['amount'][position[latest_list]])
+        position[latest_list] -= 1
             
     # If there are less than 2 purchases in the social network, return mean = -1 and sd = -1.
     if (len(latest_amount) < 2):
