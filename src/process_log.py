@@ -7,7 +7,7 @@ except ImportError:
 
 
 ## This function reads in the first file "batch_log.json" to build the initial state of the entire user network.
-def initial(filename):
+def initialize(filename):
     # The user network is stored into a Python dict "history_log".
     history_log = {}
     inputfile = open(filename)
@@ -36,16 +36,18 @@ def update_log(history_log, new_log, T, index):
     # If the event type is "purchase", add index number and purchase amount to the dict.
     if new_log['event_type'] == 'purchase':
         ID = new_log['id']
+        # Check if the dictionary has the ID.
         if not ID in history_log:
             history_log[ID] = {}
             history_log[ID]['friend'] = []
-            history_log[ID]['index'] = [index]
-            history_log[ID]['amount'] = [float(new_log['amount'])]
-        else:
-            history_log[ID]['index'].append(index)
-            history_log[ID]['amount'].append(float(new_log['amount']))
+            history_log[ID]['index'] = []
+            history_log[ID]['amount'] = []
         
-        # To save some space, if a user has more than T purchases, we just keep latest T purchases and delete the older purchases.
+        # Add index number and purchase amount for the ID.
+        history_log[ID]['index'].append(index)
+        history_log[ID]['amount'].append(float(new_log['amount']))
+        
+        # To save some disk space, if a user has more than T purchases, we just keep the latest T purchases and delete the older purchases.
         if (len(history_log[ID]['amount']) > T):
             history_log[ID]['index'].pop(0)
             history_log[ID]['amount'].pop(0)
@@ -97,7 +99,7 @@ def find_anomaly(history_log, index, D, T, inputfile_name, outputfile_name):
             # mean == -1 and sd == -1 indicate that the user's social network has less than 2 purchases.
             if (mean == -1 and sd == -1):
                 continue
-            # If the user's purchase amount is greater than mean + 3 * sd, output the anormal purchase.
+            # If the user's purchase amount is greater than mean + 3 * sd, output the abnormal purchase.
             if (float(new_log['amount']) > mean + 3 * sd):
                 string = '{"event_type":"%s", "timestamp":"%s", "id": "%s", "amount": "%s", "mean": "%.2f", "sd": "%.2f"}\n' % (new_log["event_type"], new_log["timestamp"], new_log["id"], new_log["amount"], mean, sd)
                 outfile.write(string)
@@ -171,11 +173,15 @@ def calculate_mean_sd(history_log, ID, D, T):
 def main(argv):
     # Step 1: 
     # Read in the file "batch_log.json" and initialize the entire user network.
+    # I tidy the data in the file, and save it in a Python dictionary data structure.
     # The user network is stored into a Python dict "history_log"
-    (history_log, D, T, index) = initial(argv[1])
+    # The input of this function is file name. The output of this function is the Python dictionary, degree, 
+    # the number of consecutive purchases, and the index of the last event.
+    (history_log, D, T, index) = initialize(argv[1])
     
     # Step 2:
-    # Read in file "batch-log.json" line by line, find the anormal purchase. 
+    # Read in file "stream_log.json" line by line, find the abnormal purchase.
+    # The input of this function is the dictionary, the degree, the number of consecutive purchase, and the input and output files.
     (index) = find_anomaly(history_log, index, D, T, argv[2], argv[3])
 
 
