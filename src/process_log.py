@@ -101,7 +101,7 @@ def find_anomaly(history_log, index, D, T, inputfile_name, outputfile_name):
                 continue
             # If the user's purchase amount is greater than mean + 3 * sd, output the abnormal purchase.
             if (float(new_event['amount']) > mean + 3 * sd):
-                string = '{"event_type":"%s", "timestamp":"%s", "id": "%s", "amount": "%s", "mean": "%.2f", "sd": "%.2f"}\n' % (new_log["event_type"], new_log["timestamp"], new_log["id"], new_log["amount"], mean, sd)
+                string = '{"event_type":"%s", "timestamp":"%s", "id": "%s", "amount": "%s", "mean": "%.2f", "sd": "%.2f"}\n' % (new_event["event_type"], new_event["timestamp"], new_event["id"], new_event["amount"], mean, sd)
                 outfile.write(string)
 
     infile.close()
