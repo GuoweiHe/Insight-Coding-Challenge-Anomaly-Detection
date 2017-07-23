@@ -14,15 +14,15 @@ Read the file `batch_log.json` and initialize the state of the entire user netwo
 The entire user network is stored into a `dict` having the following structure:
 
     {
-    'customerID1': {'amount': [], 'friend': [], 'index': []},
-    'customerID2': {'amount': [], 'friend': [], 'index': []},
-    'customerID3': {'amount': [], 'friend': [], 'index': []},
+    'customerID1': {'amount': [], 'index': [], 'friend': []},
+    'customerID2': {'amount': [], 'index': [], 'friend': []},
+    'customerID3': {'amount': [], 'index': [], 'friend': []},
     ......
     }
 
     The 'amount' list contains the purchases of customerID1.
-    The 'friend' list contains the direct friends of customerID1. 
-    The 'index' list contains the indexes of events related to customerID1. 
+    The 'index' list contains the indexes of events related to customerID1.
+    The 'friend' list contains the direct friends of customerID1.
     For each event, an index number is assigned. For example, the first event has index number of 1, the second event has index number of 2 ...... 
     To save some space, only the latest T purchases will be saved in the lists, and the older events will be deleted.
 
@@ -39,9 +39,9 @@ For example, after importing the following events:
 The `dict` containing the entire user network is updated to:
 
     {
-    '1': {'amount': [16.83, 59.28, 11.2], 'friend': ['2'], 'index': [1, 2, 5]},
-    '2': {'amount': [], 'friend': ['1'], 'index': []},
-    '3': {'amount': [], 'friend': [], 'index': []},
+    '1': {'amount': [16.83, 59.28, 11.2], 'index': [1, 2, 5], 'friend': ['2']},
+    '2': {'amount': [], 'index': [], 'friend': ['1']},
+    '3': {'amount': [], 'index': [], 'friend': []},
     }
 
 ### Step 2: Anomaly Detection
