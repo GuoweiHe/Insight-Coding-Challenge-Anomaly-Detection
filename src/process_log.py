@@ -194,7 +194,6 @@ def calculate_mean_sd_with_heap(history_log, ID, D, T):
             pqueue.put(Element(history_log[friends[i]]['index'][-1], length-1, i))
   
     latest_amount = []
-    
     while True:
         if (pqueue.empty() or len(latest_amount) == T):
             break;
@@ -202,8 +201,7 @@ def calculate_mean_sd_with_heap(history_log, ID, D, T):
         if (e.list_pos > 0):
             pqueue.put(Element(history_log[friends[e.list_index]]['index'][e.list_pos - 1], e.list_pos - 1, e.list_index))       
         latest_amount.append(history_log[friends[e.list_index]]['amount'][e.list_pos])
-    
-            
+        
     # If there are less than 2 purchases in the social network, return mean = -1 and sd = -1.
     if (len(latest_amount) < 2):
         return (-1, -1)
