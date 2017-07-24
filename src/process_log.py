@@ -170,6 +170,53 @@ def calculate_mean_sd(history_log, ID, D, T):
     return (mean, sd)
 
 
+## This function calculates the mean and standard deviation of a given user's Dth degree social network.
+## This function use a priority queue to improve the performace.
+def calculate_mean_sd_with_heap(history_log, ID, D, T):
+    # Find the friends in the user's Dth degree social network.
+    friends = get_friends(history_log, ID, D)
+    length = len(friends)
+    
+    # Use a priority queue to find the latest T pruchasese.
+    class Element:
+        def __init__(self, index, list_pos, list_index):
+            self.index = index
+            self.list_pos = list_pos
+            self.list_index = list_index
+            return
+        def __cmp__(self, other):
+            return -cmp(self.index, other.index)
+    
+    pqueue = PriorityQueue()
+    for i in range(length):
+        length = len(history_log[friends[i]]['index'])
+        if (length > 0):
+            pqueue.put(Element(history_log[friends[i]]['index'][-1], length-1, i))
+  
+    latest_amount = []
+    
+    while True:
+        if (pqueue.empty() or len(latest_amount) == T):
+            break;
+        e = pqueue.get();
+        if (e.list_pos > 0):
+            pqueue.put(Element(history_log[friends[e.list_index]]['index'][e.list_pos - 1], e.list_pos - 1, e.list_index))       
+        latest_amount.append(history_log[friends[e.list_index]]['amount'][e.list_pos])
+    
+            
+    # If there are less than 2 purchases in the social network, return mean = -1 and sd = -1.
+    if (len(latest_amount) < 2):
+        return (-1, -1)
+    
+    # Calculate the mean and sd, and return.
+    mean = sum(latest_amount) / len(latest_amount)
+    sd = 0
+    for i in latest_amount:
+        sd += (i - mean) * (i - mean)
+    sd = (sd / len(latest_amount))**0.5
+    return (mean, sd)
+
+
 ## Main function
 def main(argv):
     # Step 1: 
