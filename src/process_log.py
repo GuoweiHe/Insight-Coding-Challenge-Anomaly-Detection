@@ -172,7 +172,7 @@ def calculate_mean_sd(history_log, ID, D, T):
 
 ## This function calculates the mean and standard deviation of a given user's Dth degree social network.
 ## This function use a priority queue to improve the performace.
-def calculate_mean_sd_with_heap(history_log, ID, D, T):
+def calculate_mean_sd_with_pqueue(history_log, ID, D, T):
     # Find the friends in the user's Dth degree social network.
     friends = get_friends(history_log, ID, D)
     length = len(friends)
